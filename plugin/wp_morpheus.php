@@ -11,7 +11,7 @@ if (!defined('ABSPATH')) {
 }
 
 class WP_Morpheus {
-    private $mirror_url = 'http://127.0.0.1:3000';
+    private $mirror_url = 'https://morpheus.blogvault.net';
 
     public function __construct() {
         add_filter('pre_set_site_transient_update_core', array($this, 'check_core_updates'), 10, 2);
