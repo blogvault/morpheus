@@ -32,7 +32,7 @@ Morpheus is a service designed to ensure uninterrupted access to WordPress updat
 
 6. Start Sidekiq:
    ```
-   bundle exec sidekiq -r ./app.rb
+   bundle exec sidekiq -r ./job.rb
    ```
 
 ## Usage
