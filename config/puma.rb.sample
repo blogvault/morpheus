@@ -1,0 +1,17 @@
+app_dir = "/home/bvserver/morpheus"
+
+threads 8, 16
+
+bind "unix:///#{app_dir}/puma/puma.sock"
+
+environment "production"
+
+stdout_redirect "#{app_dir}/puma/puma.stdout.log", "#{app_dir}/puma/puma.stderr.log", true
+
+pidfile "#{app_dir}/puma/puma.pid"
+
+state_path "#{app_dir}/puma/puma.state"
+
+activate_control_app
+
+workers 4

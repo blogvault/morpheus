@@ -1,44 +1,9 @@
 require 'sinatra'
-require 'sidekiq'
-require 'sidekiq-cron'
-require 'sidekiq/api'
-require './config/initializers/config'
-require './config/initializers/redis'
-
-Dir[File.join(__dir__, 'app/jobs', '*.rb')].each { |file| require file }
-
 require 'json'
-require 'byebug'
-require './lib/wordpress_object'
-require './lib/wordpress_api_client'
 
-Sidekiq::Cron::Job.load_from_hash({
-  'RefreshPluginsInfoJob' => {
-    'class' => 'RefreshPluginsInfoJob',
-    'cron'  => '0 0 * * *',  # Runs once a day at midnight
-    'queue' => 'default'
-  },
-  'RefreshThemesInfoJob' => {
-    'class' => 'RefreshThemesInfoJob',
-    'cron'  => '0 0 * * *',  # Runs once a day at midnight
-    'queue' => 'default'
-  },
-  'CheckCoreUpdatesJob' => {
-    'class' => 'CheckCoreUpdatesJob',
-    'cron'  => '*/5 * * * *',  # Runs every 5 minutes
-    'queue' => 'default'
-  },
-  'CheckThemeUpdatesJob' => {
-    'class' => 'CheckThemeUpdatesJob',
-    'cron'  => '*/5 * * * *',  # Runs every 5 minutes
-    'queue' => 'default'
-  },
-  'CheckPluginUpdatesJob' => {
-    'class' => 'CheckPluginUpdatesJob',
-    'cron'  => '*/5 * * * *',  # Runs every 5 minutes
-    'queue' => 'default'
-  }
-})
+require_relative 'config/initializers/config'
+require_relative 'config/initializers/redis'
+require_relative 'lib/wordpress_object'
 
 # Initialize Redis client and WordPress object
 redis_client = Redis.new(url: CONFIG['redis']['url'])
