@@ -25,17 +25,12 @@ Morpheus is a service designed to ensure uninterrupted access to WordPress updat
    - Ensure Redis is installed and running
    - Update the Redis configuration in `config/config.yml`
 
-5. Run database migrations:
-   ```
-   rake db:migrate
-   ```
-
-6. Start the Sinatra application:
+5. Start the Sinatra application:
    ```
    ruby app.rb
    ```
 
-7. Start Sidekiq:
+6. Start Sidekiq:
    ```
    bundle exec sidekiq -r ./app.rb
    ```
