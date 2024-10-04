@@ -1,0 +1,10 @@
+:concurrency: 5
+:queues:
+  - default
+  - plugin_updates
+  - theme_updates
+  - core_updates
+
+:verbose: false
+
+:logfile: ./log/sidekiq.log
