@@ -1,0 +1,48 @@
+# Configuration for WordPress API Alternative
+
+default: &default
+  # Directory path for storing files (plugins, themes, core)
+  storage_path: './public/'
+
+  # Domain for fetching data (default: api.wordpress.org)
+  data_fetch_domain: 'https://api.wordpress.org/'
+
+  # Full resync frequency (in hours)
+  full_resync_frequency: 24
+
+  # Latest update check frequency (in minutes)
+  latest_update_frequency: 15
+
+  # User agent for external API calls
+  user_agent: 'WordPress API Alternative/1.0'
+
+  # File retention settings
+  file_retention:
+    days_to_retain: 30
+    min_versions: 3
+    max_versions: 10
+
+  # Redis configuration
+  redis:
+    url: 'redis://localhost:6379/0'
+
+  # Maximum parallel downloads
+  max_parallel_downloads: 5
+
+  # Maximum parallel refresh operations
+  max_parallel_refresh: 3
+
+development:
+  <<: *default
+  # Development-specific overrides
+  storage_path: './public/'
+  file_server_url: 'http://127.0.0.1:3000'
+
+production:
+  <<: *default
+  # Production-specific overrides
+  storage_path: './public/'
+  file_server_url: 'http://127.0.0.1:3000'
+  redis:
+    url: 'redis://localhost:3000/0'
+
