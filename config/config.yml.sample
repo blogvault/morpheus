@@ -4,6 +4,9 @@ default: &default
   # Directory path for storing files (plugins, themes, core)
   storage_path: './public/'
 
+  custom_plugins:
+   file_path: './config/custom_plugins.yaml'
+
   # Domain for fetching data (default: api.wordpress.org)
   data_fetch_domain: 'https://api.wordpress.org/'
 
