@@ -2,7 +2,7 @@
 
 ## Introduction
 
-Morpheus is a service designed to ensure uninterrupted access to WordPress updates by mirroring the WordPress.org repository. If your WordPress site encounters difficulties connecting to WordPress.org for updates, Morpheus seamlessly steps in, providing identical updates from our mirrored server. It serves as a reliable backup solution for your WordPress update process.
+Morpheus is a service designed to ensure uninterrupted access to WordPress updates by mirroring the WordPress.org repository. If your WordPress site encounters difficulties connecting to WordPress.org for updates, Morpheus seamlessly steps in, providing identical updates from our mirrored server. It serves as a reliable backup solution for your WordPress update process. [Click here](https://raw.githubusercontent.com/blogvault/morpheus/main/plugin/wp_morpheus.php.zip) to download the plugin
 
 ## Setup Instructions
 
@@ -39,7 +39,7 @@ Morpheus is a service designed to ensure uninterrupted access to WordPress updat
 
 To use Morpheus with your WordPress site:
 
-1. Install the Morpheus plugin on your WordPress site.
+1. Install the Morpheus plugin on your WordPress site [from here](https://raw.githubusercontent.com/blogvault/morpheus/main/plugin/wp_morpheus.php.zip).
 2. The plugin will connect to WordPress.org for updates by default.
 3. If the connection to WordPress.org fails, the plugin will automatically switch to Morpheus.
 4. Updates will be pulled from the Morpheus mirror server instead.
