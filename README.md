@@ -44,11 +44,26 @@ To use Morpheus with your WordPress site:
 3. If the connection to WordPress.org fails, the plugin will automatically switch to Morpheus.
 4. Updates will be pulled from the Morpheus mirror server instead.
 
-For detailed usage instructions and API documentation, please refer to our [GitHub Wiki](https://github.com/your-repo/morpheus/wiki).
+## Custom Plugin Support
+
+Morpheus now supports custom plugins hosted on external platforms like GitHub. To add a custom plugin:
+
+1. Edit `config/custom_plugins.yaml`
+2. Add your custom plugin configuration. For example:
+
+   ```yaml
+   - slug: acf
+     system: github
+     owner: AdvancedCustomFields
+     repo: acf
+     frequency: 60
+   ```
+
+   This configuration will fetch updates for the Advanced Custom Fields (ACF) plugin from its GitHub repository every 60 minutes.
 
 ## Current Limitations
 
-- Morpheus currently only supports the core WordPress updates API.
+- Morpheus currently only supports the core WordPress updates API and custom plugin updates from GitHub.
 - At present, only English-language updates are supported.
 - The focus is strictly on updates; installation of plugins and themes is not yet supported.
 
@@ -57,10 +72,6 @@ For detailed usage instructions and API documentation, please refer to our [GitH
 - Support for updates in multiple languages.
 - Expansion to handle plugin installations and theme updates.
 - Full support for the entire WordPress API.
-
-## Contributing
-
-We welcome contributions to Morpheus! Please see our [Contributing Guidelines](CONTRIBUTING.md) for more information.
 
 ## License
 

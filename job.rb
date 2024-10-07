@@ -10,6 +10,11 @@ require_relative 'lib/wordpress_api_client'
 Dir['app/jobs/*.rb'].each { |file| require_relative file }
 
 Sidekiq::Cron::Job.load_from_hash({
+  'RefreshCustomPluginsJob' => {
+    'class' => 'RefreshCustomPluginsJob',
+    'cron' => '0 */6 * * *',  # Every 6 hours
+    'queue' => 'default'
+  },
   'RefreshPluginsInfoJob' => {
     'class' => 'RefreshPluginsInfoJob',
     'cron'  => '0 0 * * *',  # Runs once a day at midnight
