@@ -14,15 +14,9 @@ class WordPressAPIClient
   # Generic method to make API requests
   def make_request(endpoint, method = :get, params = {}, headers = {})
     uri = URI.join(@base_url, endpoint)
-    #uri.query = URI.encode_www_form(params) if method == :get && !params.empty?
+
 		if method == :get && !params.empty?
-			uri.query = params.map do |key, value|
-				if value.is_a?(Hash)
-					value.map { |k, v| "request[#{k}]=#{v}" }.join('&')
-				else
-					"#{key}=#{value}"
-				end
-			end.join('&')
+			uri.query = to_query_string(params).join('&')
 		end
 
     retries = 0
@@ -81,5 +75,24 @@ class WordPressAPIClient
       raise Net::HTTPError.new('HTTP Error', response)
     end
   end
+
+	def to_query_string(params, parent_key = nil)
+		query_parts = []
+
+		params.each do |key, value|
+			# Create a full key, with nested structure if needed
+			full_key = parent_key ? "#{parent_key}[#{key}]" : key.to_s
+
+			if value.is_a?(Hash)
+				# Recursive call for nested hashes
+				query_parts.concat(to_query_string(value, full_key))
+			else
+				# Append the key-value pair to query parts
+				query_parts << "#{full_key}=#{value}"
+			end
+		end
+
+		query_parts
+	end
 end
 

@@ -20,7 +20,10 @@ class CheckPluginUpdatesJob
         request: {
           browse: 'updated',
           per_page: PER_PAGE,
-          page: page
+          page: page,
+					fields: {
+      			language_packs: 1
+   				 }
         }
       }
 

@@ -26,7 +26,10 @@ class RefreshPluginsInfoJob
         action: 'query_plugins',
         request: {
           per_page: per_page,
-          page: page
+          page: page,
+					fields: {
+      			language_packs: 1
+   				 }
         }
       }
 
