@@ -35,9 +35,21 @@ class ProcessUpdateQueueJob
       (type == 'theme' ? "https://downloads.wordpress.org/theme/#{item["slug"]}.#{item["version"]}.zip" : item.dig("download"))
   end
 
-  def download_file(url)
+  def download_file(url, limit = 10)
+    raise 'Too many HTTP redirects' if limit == 0
+
     uri = URI(url)
-    Net::HTTP.get(uri)
+    response = Net::HTTP.get_response(uri)
+
+    case response
+    when Net::HTTPSuccess then
+      response.body
+    when Net::HTTPRedirection then
+      location = response['location']
+      download_file(location, limit - 1)
+    else
+      response.value
+    end
   end
 
   def download_and_store_file(downloaded_files, type, slug, filename, download_url)
