@@ -1,6 +1,6 @@
 # Custom Plugins Configuration
 
-- slug: acf
+- slug: advanced-custom-fields
   system: github
   owner: AdvancedCustomFields
   repo: acf

@@ -3,7 +3,8 @@
 Plugin Name: WP Morpheus
 Description: Redirects WordPress core, plugin, and theme updates to a mirror when wp.org is not reachable.
 Version: 1.0
-Author: Your Name
+Author: Blogvault
+Author URI: https://blogvault.net
 */
 
 if (!defined('ABSPATH')) {
