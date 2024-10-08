@@ -52,7 +52,7 @@ Morpheus now supports custom plugins hosted on external platforms like GitHub. T
 2. Add your custom plugin configuration. For example:
 
    ```yaml
-   - slug: acf
+   - slug: advanced-custom-fields
      system: github
      owner: AdvancedCustomFields
      repo: acf
