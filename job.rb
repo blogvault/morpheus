@@ -4,6 +4,7 @@ require 'sidekiq-cron'
 
 require_relative 'config/initializers/config'
 require_relative 'config/initializers/redis'
+require_relative 'config/initializers/sidekiq'
 require_relative 'lib/wordpress_object'
 require_relative 'lib/wordpress_api_client'
 
