@@ -61,6 +61,8 @@ Morpheus now supports custom plugins hosted on external platforms like GitHub. T
 
    This configuration will fetch updates for the Advanced Custom Fields (ACF) plugin from its GitHub repository every 60 minutes.
 
+   This feature was suggested by Imran Siddiq of [WebSquadron](https://www.youtube.com/watch?v=rtmQHIS2K-U)
+
 ## Current Limitations
 
 - Morpheus currently only supports the core WordPress updates API and custom plugin updates from GitHub.
