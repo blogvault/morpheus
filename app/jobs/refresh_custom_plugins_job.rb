@@ -36,7 +36,6 @@ class RefreshCustomPluginsJob
 			'support_threads_resolved' => 0,
 			'active_installs' => 0,
 			'downloaded' => 0,
-			'last_updated' => plugin['last_updated'],
 			'added' => plugin['last_updated'],
 			'homepage' => '',
 			'sections' => {

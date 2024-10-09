@@ -13,6 +13,7 @@ class CheckThemeUpdatesJob
 		client = WordPressAPIClient.new(CONFIG['data_fetch_domain'], CONFIG['user_agent'])
 		wp_object = WordPressObject.new(REDIS)
 		last_match = REDIS.get('refresh:themes:last_match')
+		latest_theme = nil
 
 		(1..MAX_PAGES).each do |page|
 			params = {
@@ -25,7 +26,12 @@ class CheckThemeUpdatesJob
 			}
 
 			data = client.make_request('themes/info/1.2/', :get, params)
+			latest_theme = data['themes'][0] if page == 1
 			break unless process_themes(data['themes'], wp_object, last_match)
+		end
+
+		if latest_theme
+			REDIS.set('refresh:themes:last_match', "#{latest_theme['slug']}:#{latest_theme['last_updated']}")
 		end
 	end
 
@@ -34,14 +40,9 @@ class CheckThemeUpdatesJob
 	def process_themes(themes, wp_object, last_match)
 		themes.each do |theme|
 			slug = theme['slug']
-			existing_data = wp_object.get_object('theme', slug)
 
-			if existing_data&.first == theme
-				REDIS.set('refresh:themes:last_match', "#{slug}:#{theme['last_updated']}")
-				return false if last_match == "#{slug}:#{theme['last_updated']}"
-			else
-				ProcessUpdateQueueJob.perform_async('theme', theme)
-			end
+			return false if last_match == "#{slug}:#{theme['last_updated']}"
+			ProcessUpdateQueueJob.perform_async('theme', theme)
 		end
 		true
 	end
