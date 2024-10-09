@@ -6,8 +6,6 @@ bind "unix:///#{app_dir}/puma/puma.sock"
 
 environment "production"
 
-stdout_redirect "#{app_dir}/puma/puma.stdout.log", "#{app_dir}/puma/puma.stderr.log", true
-
 pidfile "#{app_dir}/puma/puma.pid"
 
 state_path "#{app_dir}/puma/puma.state"
@@ -15,3 +13,17 @@ state_path "#{app_dir}/puma/puma.state"
 activate_control_app
 
 workers 4
+
+# Logging to a file
+require 'logger'
+
+puma_log_file = "#{app_dir}/log/production.log"
+
+# Redirect stdout and stderr to log files
+stdout_redirect puma_log_file, puma_log_file, true
+
+# Set up Puma logger
+before_fork do
+  Puma::Util::LogWriter.logger = Logger.new(puma_log_file)
+end
+
