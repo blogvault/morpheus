@@ -29,10 +29,6 @@ class WP_Morpheus {
 				$transient->updates = array();
 			}
 
-			if (!empty($transient->updates)) {
-				return $transient;
-			}
-
 			global $wp_version;
 			$locale = get_locale();
 			$payload = array(
