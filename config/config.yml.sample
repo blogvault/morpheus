@@ -4,6 +4,9 @@ default: &default
   # Directory path for storing files (plugins, themes, core)
   storage_path: './public/'
 
+  custom_plugins:
+   file_path: './config/custom_plugins.yaml'
+
   # Domain for fetching data (default: api.wordpress.org)
   data_fetch_domain: 'https://api.wordpress.org/'
 
@@ -42,7 +45,7 @@ production:
   <<: *default
   # Production-specific overrides
   storage_path: './public/'
-  file_server_url: 'http://127.0.0.1:3000'
+  file_server_url: 'https://morpheus.blogvault.net'
   redis:
     url: 'redis://localhost:6379/0'
 
