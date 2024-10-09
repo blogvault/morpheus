@@ -5,3 +5,9 @@
   owner: AdvancedCustomFields
   repo: acf
   frequency: 60 # Update frequency in minutes
+
+- slug: morpheus-plugin
+  system: github
+  owner: blogvault
+  repo: morpheus-plugin
+  frequency: 60 # Update frequency in minutes
