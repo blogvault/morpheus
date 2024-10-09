@@ -28,6 +28,11 @@ class WP_Morpheus {
 			if (!isset($transient->updates)) {
 				$transient->updates = array();
 			}
+
+			if (!empty($transient->updates)) {
+				return $transient;
+			}
+
 			global $wp_version;
 			$locale = get_locale();
 			$payload = array(
@@ -40,14 +45,11 @@ class WP_Morpheus {
 
 			$response = $this->make_api_request('/core/version-check/1.7/', 'POST', $payload);
 
-
-			#		die(var_dump($response));
 			if ($response && isset($response['offers'])) {
 				foreach ($response['offers'] as $offer) {
 					$transient->updates[] = json_decode(json_encode($offer));
 				}
 			}
-
 
 			return $transient;
 		}
@@ -75,21 +77,39 @@ class WP_Morpheus {
 
 			if ($response && isset($response['plugins'])) {
 				foreach ($response['plugins'] as $plugin_slug => $plugin_data) {
-					// Check if plugin is already in transient->response
-					if (!isset($transient->response[$plugin_slug])) {
-						// Convert plugin_data array to stdClass object
-						$plugin_data_object = json_decode(json_encode($plugin_data));
-
-						// Add the plugin to transient->response
-						$transient->response[$plugin_slug] = $plugin_data_object;
+					// Continue if $plugin_data is an empty array
+					if (empty($plugin_data)) {
+						continue;
 					}
+
+					// If plugin is already in transient->response (WordPress update data)
+					if (isset($transient->response[$plugin_slug])) {
+						$wp_version = $transient->response[$plugin_slug]->new_version;
+						$server_version = $plugin_data['new_version']; // Get version from your server
+
+						// Continue if server version is empty
+						if (empty($server_version)) {
+							continue;
+						}
+
+						// Skip if WordPress version is greater than or equal to the server version
+						if (!empty($wp_version) && version_compare($server_version, $wp_version, '<=')) {
+							continue;
+						}
+					}
+
+					// Convert plugin_data array to stdClass object
+					$plugin_data_object = json_decode(json_encode($plugin_data));
+
+					// Add the plugin to transient->response
+					$transient->response[$plugin_slug] = $plugin_data_object;
 				}
 
 				// Handle translations and no_update
-				if (isset($response['translations'])) {
+				if (isset($response['translations']) && is_array($response['translations'])) {
 					$transient->translations = $response['translations'];
 				}
-				if (isset($response['no_update'])) {
+				if (isset($response['no_update']) && is_array($response['no_update'])) {
 					$transient->no_update = $response['no_update'];
 				}
 			}
@@ -119,19 +139,35 @@ class WP_Morpheus {
 
 			if ($response && isset($response['themes'])) {
 				foreach ($response['themes'] as $theme_slug => $theme_data) {
-					// Check if theme is already in transient->response
-					if (!isset($transient->response[$theme_slug])) {
-
-						// Add the theme to transient->response
-						$transient->response[$theme_slug] = $theme_data;
+					// Continue if $theme_data is an empty array
+					if (empty($theme_data)) {
+						continue;
 					}
+					// If theme is already in transient->response (WordPress update data)
+					if (isset($transient->response[$theme_slug])) {
+						$wp_version = $transient->response[$theme_slug]['new_version'];
+						$server_version = $theme_data['new_version']; // Get version from your server
+
+						// Continue if server version is empty
+						if (empty($server_version)) {
+							continue;
+						}
+
+						// Skip if WordPress version is greater than or equal to the server version
+						if (!empty($wp_version) && version_compare($server_version, $wp_version, '<=')) {
+							continue;
+						}
+					}
+
+					// Add the theme to transient->response
+					$transient->response[$theme_slug] = $theme_data;
 				}
 
 				// Handle translations and no_update
-				if (isset($response['translations'])) {
+				if (isset($response['translations']) && is_array($response['translations'])) {
 					$transient->translations = $response['translations'];
 				}
-				if (isset($response['no_update'])) {
+				if (isset($response['no_update']) && is_array($response['no_update'])) {
 					$transient->no_update = $response['no_update'];
 				}
 			}
