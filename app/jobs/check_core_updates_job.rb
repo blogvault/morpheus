@@ -12,21 +12,21 @@ class CheckCoreUpdatesJob
 		wp_object = WordPressObject.new(REDIS)
 
 		data = client.make_request('core/version-check/1.7/', :get)
-		process_core_updates(data['offers'], wp_object)
+		process_core_updates(client, data['offers'], wp_object)
 	end
 
 	private
 
-	def process_core_updates(offers, wp_object)
+	def process_core_updates(client, offers, wp_object)
 		offers.each do |offer|
-			slug = offer['version'].split('.')[0..1].join('.')
-			existing_data = wp_object.get_object('core', slug)
+			slug = offer['version']
+			slug = 'latest'	if offer['response'] == 'upgrade'
 
-			unless existing_data&.first == offer
-				slug = 'latest'	if offer['response'] == 'upgrade'
-				ProcessUpdateQueueJob.perform_async('core', offer.merge('slug' => slug))
-			end
+			# https://api.wordpress.org/translations/core/1.0/?version=6.6.2
+			translations = client.make_request("/translations/core/1.0/?version=#{offer['version']}", :get)
+			offer.merge!('language_packs' => translations['translations']) if translations&.dig('translations').present?
 
+			ProcessUpdateQueueJob.perform_async('core', offer.merge('slug' => slug))
 		end
 	end
 end

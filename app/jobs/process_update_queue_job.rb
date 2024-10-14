@@ -20,7 +20,6 @@ class ProcessUpdateQueueJob
 
 		item = update_download_links(type, item, slug, filename)
 		item = update_core_packages(type, slug, item, downloaded_files) if type == 'core'
-		item = update_language_packs(type, slug, item, downloaded_files)
 
 		wp_object.store_object(type, slug, item)
 	end
@@ -83,7 +82,8 @@ class ProcessUpdateQueueJob
 		(item["language_packs"] || []).each_with_index { |language_pack, index|
 			filename = "#{language_pack['version']}_#{language_pack['language']}.zip"
 			path = "translations/#{filename}"
-			download_and_store_file(downloaded_files, type, slug, path, language_pack["package"])
+			_slug = type == 'core' ? "" : slug
+			download_and_store_file(downloaded_files, type, _slug, path, language_pack["package"])
 			item["language_packs"][index]['package'] = "#{CONFIG['file_server_url']}/translation/#{type}/#{slug}/#{filename}"
 		}
 
