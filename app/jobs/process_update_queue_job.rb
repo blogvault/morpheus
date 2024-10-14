@@ -77,5 +77,17 @@ class ProcessUpdateQueueJob
 
 		item
 	end
+
+	def update_language_packs(type, slug, item, downloaded_files)
+		(item["language_packs"] || []).each_with_index { |language_pack, index|
+			filename = "#{language_pack['version']}_#{language_pack['language']}.zip"
+			path = "translations/#{filename}"
+			_slug = type == 'core' ? "" : slug
+			download_and_store_file(downloaded_files, type, _slug, path, language_pack["package"])
+			item["language_packs"][index]['package'] = "#{CONFIG['file_server_url']}/translation/#{type}/#{slug}/#{filename}"
+		}
+
+		item
+	end
 end
 

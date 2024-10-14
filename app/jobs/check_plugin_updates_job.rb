@@ -21,7 +21,10 @@ class CheckPluginUpdatesJob
 					request: {
 					browse: 'updated',
 					per_page: PER_PAGE,
-					page: page
+					page: page,
+					fields: {
+						language_packs: 1
+					}
 				}
 			}
 			data = client.make_request('plugins/info/1.2/', :get, params)
