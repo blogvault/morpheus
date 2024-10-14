@@ -98,7 +98,7 @@ class WordPressObject
 			array[index].merge!(new_entry)
 		else
 			array.unshift(new_entry)
-			array.sort_by! { |entry| entry['last_updated'] }.reverse!
+			array.sort_by! { |entry| Gem::Version.new(entry['version']) }.reverse!
 		end
 	end
 end
