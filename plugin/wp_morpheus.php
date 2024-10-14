@@ -122,7 +122,23 @@ class WP_Morpheus {
 				$transient->response = array();
 			}
 
-			$themes = wp_get_themes(); // Get all themes, but we will not send the active theme in the payload
+			$installed_themes = wp_get_themes(); // Get all themes, but we will not send the active theme in the payload
+			$themes = array();
+
+			foreach ( $installed_themes as $theme ) {
+				$checked[ $theme->get_stylesheet() ] = $theme->get( 'Version' );
+
+				$themes[ $theme->get_stylesheet() ] = array(
+					'Name'       => $theme->get( 'Name' ),
+					'Title'      => $theme->get( 'Name' ),
+					'Version'    => $theme->get( 'Version' ),
+					'Author'     => $theme->get( 'Author' ),
+					'Author URI' => $theme->get( 'AuthorURI' ),
+					'UpdateURI'  => $theme->get( 'UpdateURI' ),
+					'Template'   => $theme->get_template(),
+					'Stylesheet' => $theme->get_stylesheet()
+				);
+			}
 
 			$payload = array(
 				'themes' => json_encode(array('themes' => $themes)),
