@@ -17,3 +17,9 @@
   owner: GravityPDF
   repo: gravity-pdf
   frequency: 60 # Update frequency in minutes
+
+- slug: paid-memberships-pro
+  system: github
+  owner: strangerstudios
+  repo: paid-memberships-pro
+  frequency: 60 # Update frequency in minutes
