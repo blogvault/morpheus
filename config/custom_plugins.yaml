@@ -11,3 +11,9 @@
   owner: blogvault
   repo: morpheus-plugin
   frequency: 60 # Update frequency in minutes
+
+- slug: gravity-pdf
+  system: github
+  owner: GravityPDF
+  repo: gravity-pdf
+  frequency: 60 # Update frequency in minutes
