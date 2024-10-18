@@ -33,7 +33,7 @@ class CustomPluginManager
     {
       'slug' => plugin['slug'],
       'version' => latest_release['tag_name'].gsub(/^v/, ''),
-      'download_link' => latest_release['assets'].first['browser_download_url'],
+      'download_link' => latest_release['assets']&.first&.dig('browser_download_url') || latest_release['zipball_url'],
       'last_updated' => latest_release['published_at'],
       'custom' => true
     }
